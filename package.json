@@ -1,0 +1,22 @@
+{
+  "name": "csgo-streaming-game-state",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "nw": "^0.37.3"
+  },
+  "chromium-args": "--disable-gpu --force-cpu-draw",
+  "main": "index.html",
+  "node-main": "server.js",
+  "window": {
+    "width": 1920,
+    "height": 1080,
+    "frame": true
+  }
+}

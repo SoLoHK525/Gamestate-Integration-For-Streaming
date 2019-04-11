@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CS:GO Game State Integration for Streaming</title>
+    <script src="./server.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  </head>
+  <body bgcolor="#00FF00" style="color:#fff; font-size: 50px;">
+    <h1 id="weapon">xd</h1>
+    <div id="clip"></div> / <div id="ammo"></div>
+  </body>
+<script type="text/javascript">
+var fs = require('fs'),
+	gui = require('nw.gui'),
+	win = gui.Window.get();
+    win.showDevTools();
+   
+    win.on('closed', function() {
+	tray.remove();
+	process.exit(0);
+});
+ </script>
+</html>

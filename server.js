@@ -1,4 +1,4 @@
-//gui = require('nw.gui'),
+gui = require('nw.gui'),
 http = require('http');
 debug = true;
 fs = require('fs');
@@ -62,14 +62,10 @@ function execute(obj){
     csgo.round.round = obj.map.round;
     csgo.score.ct = obj.map.team_ct.score;
     csgo.score.t = obj.map.team_t.score;
-    csgo.player.state.health = obj.player.state.health;
-    csgo.player.state.armor = obj.player.state.armor;
-    csgo.player.state.helmet = obj.player.state.helmet;
-    csgo.player.state.money = obj.player.state.money;
-    csgo.player.state.round_kills = obj.player.state.round_kills;
-    csgo.player.state.round_killhs = obj.player.state.round_killhs;
+    csgo.player.match_stats = obj.player.match_stats;
+    csgo.player.state = obj.player.state;
     csgo.weapons = obj.player.weapons;
-    //print();
+    print();
 }
 
 function print(){
@@ -79,14 +75,27 @@ function print(){
     weapons.forEach(function(weapon, i){
         if(weapon.state == "active"){
             $("#weapon").attr("class", "csgo-icon-lg-2 csgo-icon-" + weapon.name.substring(7, weapon.name.length));
-            $("#clip").html(weapon.ammo_clip);
-            $("#ammo").html(weapon.ammo_reserve);
+            if(weapon.ammo_clip_max != null){
+                $("#ammo").html(weapon.ammo_clip + " / " + weapon.ammo_reserve);
+            }else{
+                $("#ammo").html("");
+            }
         }
     });
     
-    //Player State Related
+    //Round State Related 
+    $("#t-wins").html(csgo.score.t);
+    $("#ct-wins").html(csgo.score.ct);
+    
+    
+    //Player Round State Related
     $("#kills").html(csgo.player.state.round_kills);
     $("#killhs").html(csgo.player.state.round_killhs);
+    
+    //Player State Related
+    $("#k").html(csgo.player.match_stats.kills);
+    $("#a").html(csgo.player.match_stats.assists);
+    $("#d").html(csgo.player.match_stats.deaths);
 }
 
 server.listen(port);

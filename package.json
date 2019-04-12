@@ -15,8 +15,8 @@
   "main": "index.html",
   "node-main": "server.js",
   "window": {
-    "width": 1920,
-    "height": 1080,
+    "width": 640,
+    "height": 480,
     "frame": true
   }
 }

@@ -1,0 +1,327 @@
+@font-face {
+  font-family: "csgo_icons";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  src: url(./fonts/csgo_icons.woff) format('woff'),
+       url(./fonts/csgo_icons.ttf) format('truetype');
+}
+
+.csgo-icon-sm {
+    font-size: 0.75rem;
+}
+
+.csgo-icon-md {
+    font-size: 1.25rem;
+}
+
+.csgo-icon-lg {
+    font-size: 2.5rem;
+}
+
+.csgo-icon-lg-2 {
+    font-size: 3.5rem;
+}
+
+.csgo-icon-xl {
+    font-size: 5rem;
+}
+
+.csgo-icon-deagle:before {
+    font-family: "csgo_icons";
+    content: "\e001";
+}
+
+.csgo-icon-elite:before {
+    font-family: "csgo_icons";
+    content: "\e002";
+}
+
+.csgo-icon-fiveseven:before {
+    font-family: "csgo_icons";
+    content: "\e003";
+}
+
+.csgo-icon-glock:before {
+    font-family: "csgo_icons";
+    content: "\e004";
+}
+
+.csgo-icon-ak47:before {
+    font-family: "csgo_icons";
+    content: "\e007";
+}
+
+.csgo-icon-aug:before {
+    font-family: "csgo_icons";
+    content: "\e008";
+}
+
+.csgo-icon-awp:before {
+    font-family: "csgo_icons";
+    content: "\e009";
+}
+
+.csgo-icon-famas:before {
+    font-family: "csgo_icons";
+    content: "\e00a";
+}
+
+.csgo-icon-g3sg1:before {
+    font-family: "csgo_icons";
+    content: "\e00b";
+}
+
+.csgo-icon-galilar:before {
+    font-family: "csgo_icons";
+    content: "\e00d";
+}
+
+.csgo-icon-m4a1:before {
+    font-family: "csgo_icons";
+    content: "\e00e";
+}
+
+.csgo-icon-m4a1_silencer:before {
+    font-family: "csgo_icons";
+    content: "\e010";
+}
+
+.csgo-icon-mac10:before {
+    font-family: "csgo_icons";
+    content: "\e011";
+}
+
+.csgo-icon-hkp2000:before {
+    font-family: "csgo_icons";
+    content: "\e013";
+}
+
+.csgo-icon-ump45:before {
+    font-family: "csgo_icons";
+    content: "\e018";
+}
+
+.csgo-icon-xm1014:before {
+    font-family: "csgo_icons";
+    content: "\e019";
+}
+
+.csgo-icon-bizon:before {
+    font-family: "csgo_icons";
+    content: "\e01a";
+}
+
+.csgo-icon-mag7:before {
+    font-family: "csgo_icons";
+    content: "\e01b";
+}
+
+.csgo-icon-negev:before {
+    font-family: "csgo_icons";
+    content: "\e01c";
+}
+
+.csgo-icon-sawedoff:before {
+    font-family: "csgo_icons";
+    content: "\e01d";
+}
+
+.csgo-icon-tec9:before {
+    font-family: "csgo_icons";
+    content: "\e01e";
+}
+
+.csgo-icon-zeus:before {
+    font-family: "csgo_icons";
+    content: "\e01f";
+}
+
+.csgo-icon-p250:before {
+    font-family: "csgo_icons";
+    content: "\e020";
+}
+
+.csgo-icon-mp7:before {
+    font-family: "csgo_icons";
+    content: "\e021";
+}
+
+.csgo-icon-mp9:before {
+    font-family: "csgo_icons";
+    content: "\e022";
+}
+
+.csgo-icon-nova:before {
+    font-family: "csgo_icons";
+    content: "\e023";
+}
+
+.csgo-icon-p90:before {
+    font-family: "csgo_icons";
+    content: "\e024";
+}
+
+.csgo-icon-scar20:before {
+    font-family: "csgo_icons";
+    content: "\e026";
+}
+
+.csgo-icon-sg556:before {
+    font-family: "csgo_icons";
+    content: "\e027";
+}
+
+.csgo-icon-ssg08:before {
+    font-family: "csgo_icons";
+    content: "\e028";
+}
+
+.csgo-icon-knife-ct:before {
+    font-family: "csgo_icons";
+    content: "\e02a";
+}
+
+.csgo-icon-flashbang:before {
+    font-family: "csgo_icons";
+    content: "\e02b";
+}
+
+.csgo-icon-hegrenade:before {
+    font-family: "csgo_icons";
+    content: "\e02c";
+}
+
+.csgo-icon-smokegrenade:before {
+    font-family: "csgo_icons";
+    content: "\e02d";
+}
+
+.csgo-icon-molotov:before {
+    font-family: "csgo_icons";
+    content: "\e02e";
+}
+
+.csgo-icon-decoy:before {
+    font-family: "csgo_icons";
+    content: "\e02f";
+}
+
+.csgo-icon-incendiary:before {
+    font-family: "csgo_icons";
+    content: "\e030";
+}
+
+.csgo-icon-c4:before {
+    font-family: "csgo_icons";
+    content: "\e031";
+}
+
+.csgo-icon-knife-t:before {
+    font-family: "csgo_icons";
+    content: "\e03b";
+}
+
+.csgo-icon-m249:before {
+    font-family: "csgo_icons";
+    content: "\e03c";
+}
+
+.csgo-icon-usp_silencer:before {
+    font-family: "csgo_icons";
+    content: "\e03d";
+}
+
+.csgo-icon-cz75a:before {
+    font-family: "csgo_icons";
+    content: "\e03f";
+}
+
+.csgo-icon-revolver:before {
+    font-family: "csgo_icons";
+    content: "\e040";
+}
+
+.csgo-icon-kevlar:before {
+    font-family: "csgo_icons";
+    content: "\e064";
+}
+
+.csgo-icon-assaultsuit:before {
+    font-family: "csgo_icons";
+    content: "\e065";
+}
+
+.csgo-icon-defuser:before {
+    font-family: "csgo_icons";
+    content: "\e066";
+}
+
+.csgo-icon-bayonet:before {
+    font-family: "csgo_icons";
+    content: "\e1f4";
+}
+
+.csgo-icon-knife_flip:before {
+    font-family: "csgo_icons";
+    content: "\e1f9";
+}
+
+.csgo-icon-knife_gut:before {
+    font-family: "csgo_icons";
+    content: "\e1fa";
+}
+
+.csgo-icon-knife_karambit:before {
+    font-family: "csgo_icons";
+    content: "\e1fb";
+}
+
+.csgo-icon-m9_bayonet:before {
+    font-family: "csgo_icons";
+    content: "\e1fc";
+}
+
+.csgo-icon-knife_tactical:before {
+    font-family: "csgo_icons";
+    content: "\e1fd";
+}
+
+.csgo-icon-knife_falchion:before {
+    font-family: "csgo_icons";
+    content: "\e200";
+}
+
+.csgo-icon-bowie-knife_survival_bowie:before {
+    font-family: "csgo_icons";
+    content: "\e202";
+}
+
+.csgo-icon-knife_butterfly:before {
+    font-family: "csgo_icons";
+    content: "\e203";
+}
+
+.csgo-icon-knife_push:before {
+    font-family: "csgo_icons";
+    content: "\e204";
+}
+
+/*Extra*/
+
+.csgo-icon-knife:before {
+    font-family: "csgo_icons";
+    content: "\e03b";
+}
+
+
+.csgo-icon-molotov:before {
+    font-family: "csgo_icons";
+    content: "\e02e";
+}
+
+
+.csgo-icon-taser:before {
+    font-family: "csgo_icons";
+    content: "\e01f";
+}

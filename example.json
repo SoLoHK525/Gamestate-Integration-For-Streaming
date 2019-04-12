@@ -1,0 +1,93 @@
+{
+        "map": {
+                "mode": "casual",
+                "name": "de_dust2",
+                "phase": "warmup",
+                "round": 0,
+                "team_ct": {
+                        "score": 0,
+                        "name": "xd",
+                        "consecutive_round_losses": 0,
+                        "timeouts_remaining": 1,
+                        "matches_won_this_series": 0
+                },
+                "team_t": {
+                        "score": 0,
+                        "name": "team2",
+                        "consecutive_round_losses": 0,
+                        "timeouts_remaining": 1,
+                        "matches_won_this_series": 0
+                },
+                "num_matches_to_win_series": 0,
+                "current_spectators": 0,
+                "souvenirs_total": 0
+        },
+        "player": {
+                "steamid": "76561198090613582",
+                "name": "twitch.tv/solohk",
+                "observer_slot": 1,
+                "team": "CT",
+                "activity": "textinput",
+                "match_stats": {
+                        "kills": 31,
+                        "assists": 2,
+                        "deaths": 19,
+                        "mvps": 0,
+                        "score": 62
+                },
+                "state": {
+                        "health": 88,
+                        "armor": 100,
+                        "helmet": true,
+                        "defusekit": true,
+                        "flashed": 0,
+                        "smoked": 0,
+                        "burning": 0,
+                        "money": 0,
+                        "round_kills": 1,
+                        "round_killhs": 1,
+                        "equip_value": 6800
+                },
+                "weapons": {
+                        "weapon_0": {
+                                "name": "weapon_knife_flip",
+                                "paintkit": "aq_steel_knife",
+                                "type": "Knife",
+                                "state": "holstered"
+                        },
+                        "weapon_1": {
+                                "name": "weapon_usp_silencer",
+                                "paintkit": "default",
+                                "type": "Pistol",
+                                "ammo_clip": 12,
+                                "ammo_clip_max": 12,
+                                "ammo_reserve": 16,
+                                "state": "active"
+                        },
+                        "weapon_2": {
+                                "name": "weapon_m249",
+                                "paintkit": "default",
+                                "type": "Machine Gun",
+                                "ammo_clip": 0,
+                                "ammo_clip_max": 100,
+                                "ammo_reserve": 0,
+                                "state": "holstered"
+                        }
+                }
+        },
+        "provider": {
+                "name": "Counter-Strike: Global Offensive",
+                "appid": 730,
+                "version": 13687,
+                "steamid": "76561198090613582",
+                "timestamp": 1555061912
+        },
+        "previously": {
+                "player": {
+                        "activity": "playing"
+                }
+        },
+        "auth": {
+                "token": "Q79v5tcxVQ8u"
+        }
+}

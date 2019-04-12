@@ -1,4 +1,4 @@
-gui = require('nw.gui'),
+//gui = require('nw.gui'),
 http = require('http');
 debug = true;
 fs = require('fs');
@@ -57,7 +57,6 @@ server = http.createServer(function (req, res) {
 });
 
 function execute(obj){
-    /*
     csgo.map = obj.map.name;
     csgo.round.phase = obj.map.phase;
     csgo.round.round = obj.map.round;
@@ -69,20 +68,25 @@ function execute(obj){
     csgo.player.state.money = obj.player.state.money;
     csgo.player.state.round_kills = obj.player.state.round_kills;
     csgo.player.state.round_killhs = obj.player.state.round_killhs;
-    */
     csgo.weapons = obj.player.weapons;
-    print();
+    //print();
 }
 
 function print(){
     let weapons = Object.values(csgo.weapons);
+    
+    //Weapon Related
     weapons.forEach(function(weapon, i){
         if(weapon.state == "active"){
-            $("#weapon").html(weapon.name);
+            $("#weapon").attr("class", "csgo-icon-lg-2 csgo-icon-" + weapon.name.substring(7, weapon.name.length));
             $("#clip").html(weapon.ammo_clip);
             $("#ammo").html(weapon.ammo_reserve);
         }
     });
+    
+    //Player State Related
+    $("#kills").html(csgo.player.state.round_kills);
+    $("#killhs").html(csgo.player.state.round_killhs);
 }
 
 server.listen(port);

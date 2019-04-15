@@ -7,6 +7,14 @@
        url(./fonts/csgo_icons.ttf) format('truetype');
 }
 
+@font-face {
+  font-family: "csgo_icons_outline";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  src: url(./fonts/csgo_icons_outline.ttf) format('truetype');
+}
+
 .csgo-icon-sm {
     font-size: 0.75rem;
 }
@@ -207,7 +215,7 @@
     content: "\e02f";
 }
 
-.csgo-icon-incendiary:before {
+.csgo-icon-incgrenade:before {
     font-family: "csgo_icons";
     content: "\e030";
 }

@@ -17,6 +17,8 @@
   "window": {
     "width": 1920,
     "height": 1080,
-    "frame": true
+    "icon": "logo.png",
+    "frame": true,
+    "position": "center"
   }
 }

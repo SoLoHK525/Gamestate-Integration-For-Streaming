@@ -41,7 +41,7 @@ server = http.createServer(function (req, res) {
 		});
 		req.on('end', function () {
 			if (!!debug) {
-				console.debug("POST payload: " + body);
+				//console.debug("POST payload: " + body);
 			}
 			execute(JSON.parse(body));
 			res.end('');
@@ -164,10 +164,10 @@ function multiKill(num){
                 killMessage = "Triple Kill!";
                 break;
             case 4:
-                killMessage = "Quadra kill!";
+                killMessage = "Quadra Kill!";
                 break;
             case 5:
-                killMessage = "Penta kill!";
+                killMessage = "Penta Kill!";
                 break;
             default:
                 killMessage = "Multi Kill!";

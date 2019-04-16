@@ -8,7 +8,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.3.1",
     "nw": "^0.37.3"
   },
   "chromium-args": "--disable-gpu --force-cpu-draw",
@@ -19,6 +18,7 @@
     "height": 1080,
     "icon": "logo.png",
     "frame": true,
-    "position": "center"
+    "position": "center",
+    "resizable": false
   }
 }

@@ -7,7 +7,7 @@ port = 1025;
 host = '127.0.0.1';
 
 var csgo = {
-    map: "de_",
+    map: "de_test",
     round: {
         phase: null
     },
@@ -68,17 +68,18 @@ function execute(obj){
 }
 
 function print(){
-    let weapons = Object.values(csgo.weapons);
     
     //Game State Related
     $("#map").html(mapName(csgo.map.name));
     if(csgo.map.phase == "warmup"){
         $("#phase").html("Warmup");
     }else{
-        $("#phase").html("Round " + csgo.map.round);
+        $("#phase").html("Round " + (csgo.map.round + 1));
     }
     
+
     //Weapon Related
+    let weapons = Object.values(csgo.weapons);
     weapons.forEach(function(weapon, i){
         if(weapon.state == "active"){
             $("#weapon").attr("class", "csgo-icon-lg-2 csgo-icon-" + weapon.name.substring(7, weapon.name.length));

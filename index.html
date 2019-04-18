@@ -3,127 +3,19 @@
   <head>
     <title>CS:GO Game State Integration for Streaming</title>
     <link rel="stylesheet" type="text/css" href="./assets/css/csgo_weapon.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Orbitron|Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <script src="./server.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <style>
-    html {
-        font-family: 'Orbitron', 'Roboto', sans-serif;
-        font-weight: bold;
-    }
-    
-    .center {
-        position: fixed;
-        top: 45%;
-        left: 48%;
-    }
-    
-    .top {
-        position: fixed;
-        top: 0px;
-    }
-    
-    .bottom {
-        position: fixed;
-        bottom: 0px;
-    }
-    
-    .left {
-        left: -15px;
-    }
-    
-    .right {
-        position: fixed;
-        right: -15px;
-    }
-    
-    .blocks {
-        display: inline-block;
-        padding: 5px 15px 5px 15px;
-        background: rgb(2,173,252); /* Old browsers */
-        background: -moz-linear-gradient(-45deg, rgba(2,173,252,1) 0%, rgba(252,2,244,1) 97%, rgba(252,2,244,1) 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(-45deg, rgba(2,173,252,1) 0%,rgba(252,2,244,1) 97%,rgba(252,2,244,1) 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(135deg, rgba(2,173,252,1) 0%,rgba(252,2,244,1) 97%,rgba(252,2,244,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#02adfc', endColorstr='#fc02f4',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-        -webkit-transform: skew(-15deg);
-        border-style: solid;
-        border-width: 5px;
-        border-color: #ffffff99;
-    }
-    
-    .blocks span{
-        margin-left: 5px;
-        margin-right: 5px;
-        display: inline-block;
-        -webkit-transform: skew(15deg);
-    }
-
-    .size-1 {
-        font-size: 50px;
-    }
-    
-    .size-2 {
-        font-size: 35px;
-    }
-    
-    .size-3 {
-        font-size: 25px;
-    }
-    
-    .size-4 {
-        font-size: 20px;
-    }
-    
-    .row {
-        display: inline-block;
-    }
-    
-    .t {
-        color: #ffaa00;
-    }
-    
-    .ct {
-        color: #0077ff;
-    }
-    
-    .fadeInLeft {
-        animation-name: fadeInLeft;
-        animation-duration: 1s;
-    }
-    
-    @-webkit-keyframes fadeInLeft {
-        from {
-            opacity:0;
-            transform: translatex(-250px) skew(0deg);
-        }
-        to {
-            opacity:1;
-            transform: translatex(0) skew(-15deg);
-        }
-    }
-    
-    .fadeOutRight {
-        animation-name: fadeOutRight;
-        animation-duration: 1s;
-    }
-    
-    @-webkit-keyframes fadeOutRight {
-        from {
-            opacity:1;
-            transform: translatex(0) skew(-15deg);
-        }
-        to {
-            opacity:0;
-            transform: translatex(-250px) skew(0deg);
-        }
-    }
-}
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
   </head>
   <body bgcolor="#00FF00" style="color:#fff;">
     <div class="top left blocks size-3">
         <span id="map">Unknown</span> | <span id="phase">Round X</span> | <span id="wins-1">T 0</span> - <span id="wins-2">0 CT</span>
+    </div>
+    <div class="top right blocks size-3" style="text-align: right;min-width: 325px;">
+        <span id="time"></span>
     </div>
     
     <div class="left blocks size-1 fadeInLeft" style="bottom: 500px;position: fixed;" id="multikill">
@@ -131,7 +23,7 @@
     </div>
     
     
-    <div class="bottom left blocks" style="min-width: 400px; min-height: 35px;">
+    <div class="bottom left blocks" style="min-width: 400px; min-height: 45px;">
         <span class="size-2" id="hp_logo"><i class="fas fa-heart"></i></span> <span class="size-2" id="hp">100</span>
         &nbsp;
         <span class="size-3"><img id="helmet" height="25px"></span><span class="size-3" id="armor">100</span>
@@ -140,24 +32,63 @@
             <span id="k">0</span> <span>K</span> | <span id="a">0</span> <span>A</span> | <span id="d">0</span> <span>D</span>
         </div>
     </div>
-    <div class="right bottom blocks" style="min-width: 400px; min-height: 35px;text-align: right;">
-        <div class="row" style="position: absolute; right:350px; bottom: 11px;">
+    <div class="right bottom blocks" style="min-width: 400px; min-height: 45px;text-align: right;">
+        <div class="row" style="position: absolute; right:350px; bottom: 12px;">
             <span class="size-3"><i class="fas fa-skull"></i></span> <span class="size-3" id="kills" style="text-align: left;">0</span>
         </div>
         <span class="size-2" id="ammo">&nbsp; 0 / 0</span><span class="csgo-icon-awp" id="weapon" style="display: inline-block; font-size: 35px;"></span>
     </div>
   </body>
 <script type="text/javascript">
-var fs = require('fs'),
-	gui = require('nw.gui'),
-	win = gui.Window.get();
-   
-    win.on('closed', function() {
-	tray.remove();
-	process.exit(0);
-});
+    $("#multikill").hide();
+    var opacity = 1;
+    var firstColor = function(num){
+        return "rgba(252,2,244," + num + ")"
+        };
+    var secondColor = function(num){
+        return "rgba(2,173,252," + num + ")"
+        };
+    /*
+    var firstColor(1) = "rgba(213,48,242,1)";
+    var secondColor(1) = "rgba(255,165,0,1)";
+    */
+    var color1 = -200;
+    var color2 = -100;
+    var color3 = 0;
+    var color4 = 100;
     $(document).ready(function(){
-        $("#multikill").hide();
+        setInterval(function(){
+            if(color4 > 100){
+                $(".blocks").css("background", "linear-gradient(105deg, " + firstColor(1) + " " + color1 +"%, " + secondColor(1) + " " + color2 +"%, " + firstColor(1) + " " + color3 +"%, " + secondColor(1) + " " + color4 +"%)");
+            }else if(color3 > 100){
+                $(".blocks").css("background", "linear-gradient(105deg, " + secondColor(1) + " " + color4 +"%, " + firstColor(1) + " " + color1 +"%, " + secondColor(1) + " " + color2 +"%, " + firstColor(1) + " " + color3 +"%)");
+            }else if(color2 > 100){
+                $(".blocks").css("background", "linear-gradient(105deg, " + firstColor(1) + " " + color3 +"%, " + secondColor(1) + " " + color4 +"%, " + firstColor(1) + " " + color1 +"%, " + secondColor(1) + " " + color2 +"%)");
+            }else if(color1 > 100){
+                $(".blocks").css("background", "linear-gradient(105deg, " + secondColor(1) + " " + color2 +"%, " + firstColor(1) + " " + color3 +"%, " + secondColor(1) + " " + color4 +"%, " + firstColor(1) + " " + color1 +"%)");
+            }
+            
+            color1 += 1.25;
+            color2 += 1.25;
+            color3 += 1.25;
+            color4 += 1.25;
+            if(color4 >= 200){
+                color4 = -200;
+            }
+            if(color3 >= 200){
+                color3 = -200;
+            }
+            if(color2 >= 200){
+                color2 = -200;
+            }
+            if(color1 >= 200){
+                color1 = -200;
+            }
+        }, 100);
+        setInterval(function(){
+            var date = Date.now();
+            $("#time").html(moment(date).format('YYYY/MM/DD H:mm:ss'));
+        }, 1000);
     });
  </script>
 </html>

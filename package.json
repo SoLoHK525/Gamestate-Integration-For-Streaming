@@ -17,6 +17,7 @@
   "window": {
     "width": 1920,
     "height": 1080,
-    "frame": true
+    "frame": true,
+    "resizable": false
   }
 }

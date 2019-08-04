@@ -18,6 +18,9 @@
     "width": 1920,
     "height": 1080,
     "frame": true,
-    "resizable": false
+    "resizable": false/*,
+    "kiosk": true,
+    "transparent": true,
+    "fullscreen": true*/
   }
 }

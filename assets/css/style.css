@@ -3,6 +3,57 @@ html {
     font-weight: bold;
 }
 
+.kad-board {
+    padding-top: 5px;
+    padding-left: 20px;
+    height: 50px;
+    background-color: #333;
+    display: inline-block;
+    position: absolute;
+    left: 200px;
+    width: 260px;
+    -webkit-transform: skew(-15deg);
+}
+
+.kad-board span {
+    margin-top: 8px;
+    margin-right: 5px;
+    display: inline-block;
+    -webkit-transform: skew(15deg);
+}
+
+.progress {
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25), 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.hp-bar {
+    position: absolute;
+    background-color: grey;
+    height: 100px;
+    margin: 0 0 0 0 !important;
+    padding: 0 0 0 0 !important;
+}
+
+.hp-bar-content {
+    left: -15px;
+    -webkit-transform: skew(-15deg);
+    transition: width 0.25s;
+    position: absolute;
+    height: 100%;
+    margin: 0 0 0 0 !important;
+}
+
+.hp-bar-text {
+    position: absolute;
+}
+
+.hp-bar.armor {
+    display: inline-block;
+}
+
 .center {
     position: fixed;
     top: 45%;
@@ -29,6 +80,15 @@ html {
 }
 
 
+.grey {
+    background-color: #333;
+    -webkit-transform: skew(-15deg);
+}
+
+.grey span {
+    -webkit-transform: skew(15deg);
+}
+
 .bottom-center {
     position: fixed;
     left: 625px;
@@ -37,17 +97,17 @@ html {
 .blocks {
     display: inline-block;
     padding: 5px 15px 5px 15px;
-    -webkit-transform: skew(-15deg);
+    /*-webkit-transform: skew(-15deg);*/
     border-style: solid;
     border-width: 0px;
-    border-color: #ffffff99;
+    border-color: #ffffff;
 }
 
 .blocks span{
     margin-left: 5px;
     margin-right: 5px;
     display: inline-block;
-    -webkit-transform: skew(15deg);
+    /*-webkit-transform: skew(15deg);*/
 }
 
 .size-1 {

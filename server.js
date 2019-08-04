@@ -1,6 +1,6 @@
 gui = require('nw.gui'),
 http = require('http');
-debug = true;
+debug = false;
 fs = require('fs');
 
 port = 1025;
@@ -107,19 +107,35 @@ function print(){
     
     //Player Round State Related
     $("#hp").html(csgo.player.state.health);
+    $("#hp-bar").css("width", csgo.player.state.health + "%");
     if(csgo.player.state.health <= 20){
-        $("#hp").css("color", "red");
-        $("#hp_logo").css("color", "red");
+        //$("#hp").css("color", "red");
+        $("#hp-bar").css("background-color", "red");
+        //$("#hp_logo").css("color", "red");
+    }else if(csgo.player.state.health <= 50){
+        $("#hp-bar").css("background-color", "yellow");
+        //$("#hp").css("color", "#fff");
+        //$("#hp_logo").css("color", "#fff");
     }else{
-        $("#hp").css("color", "#fff");
-        $("#hp_logo").css("color", "#fff");
+        $("#hp-bar").css("background-color", "#037ffc");
     }
+    
     if(csgo.player.state.helmet){
         $("#helmet").attr("src", "./helmet.png");
     }else{
         $("#helmet").attr("src", "./armor.png");
     }
+    
     $("#armor").html(csgo.player.state.armor);
+    $("#armor-bar").css("width", csgo.player.state.armor + "%");
+    if(csgo.player.state.armor <= 20){
+        $("#armor-bar").css("background-color", "red");
+    }else if(csgo.player.state.armor <= 50){
+        $("#armor-bar").css("background-color", "yellow");
+    }else{
+        $("#armor-bar").css("background-color", "#037ffc");
+    }
+    
     $("#kills").html(csgo.player.state.round_kills);
     
     //Player State Related

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+z<!DOCTYPE html>
 <html>
   <head>
     <title>CS:GO Game State Integration for Streaming</title>
@@ -11,50 +11,70 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
   </head>
   <body bgcolor="#00FF00" style="color:#fff; overflow: none;">
-    <div class="top left blocks size-3">
+  <!--<body background="./bg.jpg" style="color:#fff; overflow: none;">-->
+    <div class="top left blocks size-3 grey">
         <span id="map">Unknown</span> | <span id="phase">Round X</span> | <span id="wins-1">T 0</span> - <span id="wins-2">0 CT</span>
     </div>
-    <div class="top right blocks size-3" style="text-align: right;min-width: 265px;">
-        <span id="time"></span>
+    <div class="top right blocks size-3 grey" style="text-align: right;min-width: 265px;">
+        <span id="time">1970/01/01 00:00</span>
     </div>
     
     <div class="blocks" style="height: 55px;width: 105px;position: fixed; top: 22.6%; right: -10px;">
  
     </div>
-    <div class="left blocks size-1 fadeInLeft" style="bottom: 500px;position: fixed;" id="multikill">
+    <div class="left blocks size-1 fadeInLeft grey" style="bottom: 500px;position: fixed;" id="multikill">
         1 Kill!
     </div>
     
     
     <div class="bottom left blocks" style="min-width: 400px; min-height: 45px;">
-        <span class="size-2" id="hp_logo"><i class="fas fa-heart"></i></span> <span class="size-2" id="hp">100</span>
-        &nbsp;
-        <span class="size-3"><img id="helmet" height="25px"></span><span class="size-3" id="armor">100</span>
-        &nbsp;
-        <div class="size-4" style="display: inline-block;">
+        <div class="hp-bar" style="width: 200px;">
+            <span class="hp-bar-content" id="hp-bar">
+            </span>
+            <span class="hp-bar-text">
+                <span class="size-4" id="hp_logo"><i class="fas fa-heart" style="position: absolute; top: 2.5px; left: 45px;"></i></span><span class="size-4" style="margin-left: 60px;" id="hp">100</span>
+            </span>
+        </div>
+        <div class="hp-bar" style="width: 200px; top: 30px;">
+            <span class="hp-bar-content" id="armor-bar">
+            </span>
+            <span class="hp-bar-text">
+                <span class="size-4"><img id="helmet" height="22.5px" src="./armor.png" style="position: absolute; top: 0px; left: 47px;"></span><span class="size-4" style="margin-left: 60px;" id="armor">100</span>
+            </span>
+        </div>
+        <!--
+        <div class="hp-bar armor" style="width: 200px;">
+            <span class="hp-bar-content">
+            </span>
+            <div class="hp-bar-text">
+                <span class="size-4"><img id="helmet" height="25px"></span><span class="size-4" id="armor">100</span>
+            </div>
+        </div>
+        -->
+        <div class="kad-board size-4">
             <span id="k">0</span> <span>K</span> | <span id="a">0</span> <span>A</span> | <span id="d">0</span> <span>D</span>
         </div>
     </div>
     
-    <div class="bottom bottom-center blocks" style="min-width: 650px; min-height: 80px;">
+    <div class="bottom bottom-center blocks grey" style="min-width: 650px; min-height: 80px;">
         <span class="size-1"> <span>
     </div>
     
-    <div class="right bottom blocks" style="min-width: 400px; min-height: 45px;text-align: right;">
-        <div class="row" style="position: absolute; right:290px; bottom: 12px;">
+    <div class="right bottom blocks grey" style="min-width: 400px; min-height: 45px;text-align: right;">
+        <div class="row" style="position: absolute; right:300px; bottom: 12px;">
             <span class="size-3"><i class="fas fa-skull"></i></span> <span class="size-3" id="kills" style="text-align: left;">0</span>
         </div>
-        <span class="size-2" id="ammo">&nbsp; 0 / 0</span><span class="csgo-icon-awp" id="weapon" style="display: inline-block; font-size: 35px;"></span>
+        <span class="size-2" id="ammo">0 / 0</span><span class="csgo-icon-awp" id="weapon" style="display: inline-block; font-size: 35px;"></span>
     </div>
   </body>
 <script type="text/javascript">
     $("#multikill").hide();
     var opacity = 0.5;
     var firstColor = function(num){
-        return "rgba(183,36,36," + num + ")"
+        return "rgba(74, 149, 207," + num + ")"
         };
     var secondColor = function(num){
-        return "rgba(255,136,0," + num + ")"
+        return "rgba(50, 60, 168," + num + ")"
         };
     /*
     var firstColor(1) = "rgba(213,48,242,1)";
@@ -68,8 +88,10 @@
     var color2 = -100;
     var color3 = 0;
     var color4 = 100;
+
     $(document).ready(function(){
         setInterval(function(){
+            return ;
             if(color4 > 100){
                 $(".blocks").css("background", "linear-gradient(105deg, " + firstColor(1) + " " + color1 +"%, " + secondColor(1) + " " + color2 +"%, " + firstColor(1) + " " + color3 +"%, " + secondColor(1) + " " + color4 +"%)");
             }else if(color3 > 100){
@@ -96,11 +118,12 @@
             if(color1 >= 200){
                 color1 = -200;
             }
-        }, 100);
+        }, 1000);
         setInterval(function(){
             var date = Date.now();
             $("#time").html(moment(date).format('YYYY/MM/DD HH:mm'));
         }, 1000);
     });
+ 
  </script>
 </html>

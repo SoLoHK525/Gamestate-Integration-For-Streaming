@@ -21,7 +21,9 @@
   "window": {
     "width": 1920,
     "height": 1080,
-    "frame": true,
-    "resizable": false
+    "frame": false,
+    "resizable": false,
+    "min_width": 1920,
+    "min_height": 1080
   }
 }

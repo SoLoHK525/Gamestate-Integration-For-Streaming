@@ -1,7 +1,58 @@
-gui = require('nw.gui'),
-http = require('http');
-debug = false;
-fs = require('fs');
+let gui = require('nw.gui');
+let http = require('http');
+let debug = false;
+let fs = require('fs');
+
+let Spotify = require('./Spotify.js');
+
+function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
+let spotifyTimeout;
+
+Spotify.init((cb) => {
+    token = cb;
+});
+
+setInterval(function(){
+    Spotify.init((cb) => {
+        token = cb;
+    });
+}, 3600000);
+
+setInterval(function(){
+    Spotify.getCurrentPlayingSongInfo(function(SongInfo){
+        if(!SongInfo.playing){
+            $("#spotify").removeClass("fadeInRight");
+            $("#spotify").addClass("fadeOutLeft");
+            spotifyTimeout = setTimeout(function(){
+                $("#spotify").hide();
+            }, 1000);
+        }else{
+            $("#spotify").show();
+            $("#spotify").removeClass("fadeOutLeft");
+            $("#spotify").addClass("fadeInRight");
+        }
+        //$("#spotify").html(JSON.stringify(SongInfo));
+        $("#spotify-track-img").attr("src", SongInfo.images[2].url);
+        $("#spotify-track-name").html(SongInfo.name);
+        let artistName = "";
+        
+        for(let i = 0; i < SongInfo.artists.length; i++){
+            if(i == 0){
+                artistName += SongInfo.artists[i];
+            }else{
+                artistName += ", " + SongInfo.artists[i];
+            }
+        }
+        $("#spotify-track-artist").html(artistName);
+        $("#spotify-time-display").html(millisToMinutesAndSeconds(SongInfo.progress));
+        let progress = ((SongInfo.progress / SongInfo.length) * 100).toPrecision(3);
+        $(".spotify-time-content").css("width", progress + "%")
+    });
+}, 1000);
 
 port = 1025;
 host = '127.0.0.1';
@@ -64,13 +115,14 @@ function execute(obj){
     csgo.score.t = obj.map.team_t.score;
     csgo.player = obj.player;
     csgo.weapons = obj.player.weapons;
+    csgo.provider = obj.provider;
     print();
 }
 
 function print(){
-    
     //Game State Related
     $("#map").html(mapName(csgo.map.name));
+    $("#money").html("$" + csgo.player.state.money);
     if(csgo.map.phase == "warmup"){
         $("#phase").html("Warmup");
     }else{
@@ -145,6 +197,17 @@ function print(){
     
     //Multi-kill Handler
     multiKill(csgo.player.state.round_kills);
+
+    let spectatingTimeout;
+    if(csgo.player.steamid != csgo.provider.steamid){
+        clearTimeout(spectatingTimeout);
+        $("#spectating").show().removeClass("fadeOutRight").addClass("fadeInLeft");
+    }else{
+        $("#spectating").removeClass("fadeInLeft").addClass("fadeOutRight");
+        spectatingTimeout = setTimeout(function(){
+            $("#spectating").hide();
+        }, 1000);
+    }
 }
 
 var lastKill = 0;

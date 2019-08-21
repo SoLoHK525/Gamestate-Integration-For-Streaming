@@ -3,6 +3,59 @@ html {
     font-weight: bold;
 }
 
+.spotify {
+    min-width: 250px;
+    padding-right: 25px !important;
+}
+
+.spotify-img {
+    bottom: 10px;
+    left: 10px;
+    position: absolute;
+}
+
+.spotify-track-info {
+    position: absolute;
+    top: 8px;
+    left: 75px;
+    padding-left: 5px;
+}
+
+
+.spotify-track-info .name{
+    display: block;
+    font-size: 10px;
+    font-family: Microsoft JhengHei;
+}
+
+.spotify-track-info .artist{
+    display: block;
+    font-size: 10px;
+    margin-left: 10px;
+    font-family: Microsoft JhengHei;
+}
+
+.spotify-time-progress {
+    top: 55px;
+    left: 102px;
+    position: absolute;
+    height: 25px;
+    width: 175px;
+    background-color: #888;
+}
+
+
+.spotify-time-content {
+    height: 100%;
+    width: 50%;
+    background-color: #037ffc;
+}
+
+.spotify-time-content span {
+    margin-top: 2.5px;
+    padding-left: 65px;
+}
+
 .kad-board {
     padding-top: 5px;
     padding-left: 20px;
@@ -40,7 +93,8 @@ html {
 .hp-bar-content {
     left: -15px;
     -webkit-transform: skew(-15deg);
-    transition: width 0.25s;
+    max-width: 100%;
+    transition: width 0.5s;
     position: absolute;
     height: 100%;
     margin: 0 0 0 0 !important;
@@ -154,6 +208,23 @@ html {
     }
 }
 
+
+.fadeInRight {
+    animation-name: fadeInRight;
+    animation-duration: 1s;
+}
+
+@-webkit-keyframes fadeInRight {
+    from {
+        opacity:0;
+        transform: translatex(250px) skew(-15deg);
+    }
+    to {
+        opacity:1;
+        transform: translatex(0) skew(-15deg);
+    }
+}
+
 .fadeOutRight {
     animation-name: fadeOutRight;
     animation-duration: 1s;
@@ -167,5 +238,22 @@ html {
     to {
         opacity:0;
         transform: translatex(-250px) skew(0deg);
+    }
+}
+
+
+.fadeOutLeft {
+    animation-name: fadeOutLeft;
+    animation-duration: 1s;
+}
+
+@-webkit-keyframes fadeOutLeft {
+    from {
+        opacity:1;
+        transform: translatex(0) skew(-15deg);
+    }
+    to {
+        opacity:0;
+        transform: translatex(250px) skew(-15deg);
     }
 }

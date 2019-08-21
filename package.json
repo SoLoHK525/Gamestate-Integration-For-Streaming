@@ -8,6 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.0",
     "jquery": "^3.3.1",
     "nw": "^0.37.3"
   },
@@ -18,9 +19,6 @@
     "width": 1920,
     "height": 1080,
     "frame": true,
-    "resizable": false/*,
-    "kiosk": true,
-    "transparent": true,
-    "fullscreen": true*/
+    "resizable": false
   }
 }

@@ -98,41 +98,13 @@ app.post('/', function(req, res, next) {
             console.debug("POST payload: " + body);
         }
         execute(JSON.parse(body));
+        res.end();
     })
     res.status(200).setHeader('Content-Type', 'text/html');
     res.send('');
 });
 
 app.use('/spotify', Spotify.web);
-
-/*
-server = http.createServer(function (req, res) {
-	if (req.method == 'POST') {
-		res.writeHead(200, {
-			'Content-Type': 'text/html'
-		});
-
-		var body = '';
-		req.on('data', function (data) {
-			body += data;
-		});
-		req.on('end', function () {
-			if (!!debug) {
-				console.debug("POST payload: " + body);
-			}
-			execute(JSON.parse(body));
-			res.end('');
-		});
-
-	} else {
-		res.writeHead(200, {
-			'Content-Type': 'text/html'
-		});
-		res.end("Nothing to see here!");
-	}
-
-});
-*/
 
 function execute(obj){
     csgo.map = obj.map;

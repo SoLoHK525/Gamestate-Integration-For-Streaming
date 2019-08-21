@@ -14,19 +14,28 @@ function millisToMinutesAndSeconds(millis) {
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
+
+Spotify.hide = function(){
+    $("#spotify").removeClass("fadeInRight");
+    $("#spotify").addClass("fadeOutLeft");
+    spotifyTimeout = setTimeout(function(){
+        $("#spotify").hide();
+    }, 1000);
+}
+
+Spotify.show = function(){
+    $("#spotify").show();
+    $("#spotify").removeClass("fadeOutLeft");
+    $("#spotify").addClass("fadeInRight");
+}
+
 setInterval(function(){
     if(Spotify.ready){
         Spotify.getCurrentPlayingSongInfo(function(SongInfo){
             if(!SongInfo.playing){
-                $("#spotify").removeClass("fadeInRight");
-                $("#spotify").addClass("fadeOutLeft");
-                spotifyTimeout = setTimeout(function(){
-                    $("#spotify").hide();
-                }, 1000);
+                Spotify.hide();
             }else{
-                $("#spotify").show();
-                $("#spotify").removeClass("fadeOutLeft");
-                $("#spotify").addClass("fadeInRight");
+                Spotify.show();
             }
             //$("#spotify").html(JSON.stringify(SongInfo));
             $("#spotify-track-img").attr("src", SongInfo.images[2].url);
@@ -45,13 +54,15 @@ setInterval(function(){
             let progress = ((SongInfo.progress / SongInfo.length) * 100).toPrecision(3);
             $(".spotify-time-content").css("width", progress + "%")
         });
+    }else{
+        Spotify.hide();
     }
 }, 1000);
 
 port = 1025;
 host = '127.0.0.1';
 
-open('http://dev.csgo.work:' + port + '/spotify/login');
+open('http://localhost:' + port + '/spotify/login');
 
 var csgo = {
     map: "de_test",
@@ -77,8 +88,6 @@ var csgo = {
 }
 
 app.post('/', function(req, res, next) {
-    res.status(200).setHeader('Content-Type', 'text/html');
-
     let body = '';
     req.on('data', function(data) {
         body += data;
@@ -90,6 +99,8 @@ app.post('/', function(req, res, next) {
         }
         execute(JSON.parse(body));
     })
+    res.status(200).setHeader('Content-Type', 'text/html');
+    res.send('');
 });
 
 app.use('/spotify', Spotify.web);

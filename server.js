@@ -1,61 +1,57 @@
 let gui = require('nw.gui');
 let http = require('http');
-let debug = false;
+let debug = true;
 let fs = require('fs');
-
+let express = require('express');
+const open = require('open');
 let Spotify = require('./Spotify.js');
+
+let app = express();
 
 function millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
-let spotifyTimeout;
-
-Spotify.init((cb) => {
-    token = cb;
-});
 
 setInterval(function(){
-    Spotify.init((cb) => {
-        token = cb;
-    });
-}, 3600000);
-
-setInterval(function(){
-    Spotify.getCurrentPlayingSongInfo(function(SongInfo){
-        if(!SongInfo.playing){
-            $("#spotify").removeClass("fadeInRight");
-            $("#spotify").addClass("fadeOutLeft");
-            spotifyTimeout = setTimeout(function(){
-                $("#spotify").hide();
-            }, 1000);
-        }else{
-            $("#spotify").show();
-            $("#spotify").removeClass("fadeOutLeft");
-            $("#spotify").addClass("fadeInRight");
-        }
-        //$("#spotify").html(JSON.stringify(SongInfo));
-        $("#spotify-track-img").attr("src", SongInfo.images[2].url);
-        $("#spotify-track-name").html(SongInfo.name);
-        let artistName = "";
-        
-        for(let i = 0; i < SongInfo.artists.length; i++){
-            if(i == 0){
-                artistName += SongInfo.artists[i];
+    if(Spotify.ready){
+        Spotify.getCurrentPlayingSongInfo(function(SongInfo){
+            if(!SongInfo.playing){
+                $("#spotify").removeClass("fadeInRight");
+                $("#spotify").addClass("fadeOutLeft");
+                spotifyTimeout = setTimeout(function(){
+                    $("#spotify").hide();
+                }, 1000);
             }else{
-                artistName += ", " + SongInfo.artists[i];
+                $("#spotify").show();
+                $("#spotify").removeClass("fadeOutLeft");
+                $("#spotify").addClass("fadeInRight");
             }
-        }
-        $("#spotify-track-artist").html(artistName);
-        $("#spotify-time-display").html(millisToMinutesAndSeconds(SongInfo.progress));
-        let progress = ((SongInfo.progress / SongInfo.length) * 100).toPrecision(3);
-        $(".spotify-time-content").css("width", progress + "%")
-    });
+            //$("#spotify").html(JSON.stringify(SongInfo));
+            $("#spotify-track-img").attr("src", SongInfo.images[2].url);
+            $("#spotify-track-name").html(SongInfo.name);
+            let artistName = "";
+            
+            for(let i = 0; i < SongInfo.artists.length; i++){
+                if(i == 0){
+                    artistName += SongInfo.artists[i];
+                }else{
+                    artistName += ", " + SongInfo.artists[i];
+                }
+            }
+            $("#spotify-track-artist").html(artistName);
+            $("#spotify-time-display").html(millisToMinutesAndSeconds(SongInfo.progress));
+            let progress = ((SongInfo.progress / SongInfo.length) * 100).toPrecision(3);
+            $(".spotify-time-content").css("width", progress + "%")
+        });
+    }
 }, 1000);
 
 port = 1025;
 host = '127.0.0.1';
+
+open('http://dev.csgo.work:' + port + '/spotify/login');
 
 var csgo = {
     map: "de_test",
@@ -80,6 +76,25 @@ var csgo = {
     }
 }
 
+app.post('/', function(req, res, next) {
+    res.status(200).setHeader('Content-Type', 'text/html');
+
+    let body = '';
+    req.on('data', function(data) {
+        body += data;
+    })
+
+    req.on('end', function(){
+        if(!!debug){
+            console.debug("POST payload: " + body);
+        }
+        execute(JSON.parse(body));
+    })
+});
+
+app.use('/spotify', Spotify.web);
+
+/*
 server = http.createServer(function (req, res) {
 	if (req.method == 'POST') {
 		res.writeHead(200, {
@@ -106,6 +121,7 @@ server = http.createServer(function (req, res) {
 	}
 
 });
+*/
 
 function execute(obj){
     csgo.map = obj.map;
@@ -300,5 +316,7 @@ function mapName(str){
             break;
     }
 }
-server.listen(port);
+
+app.listen(port);
+//server.listen(port);
 console.log('Listening at http://' + host + ':' + port);

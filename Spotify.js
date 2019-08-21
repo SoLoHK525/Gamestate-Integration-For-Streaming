@@ -1,38 +1,91 @@
 const fs = require('fs');
 const axios = require('axios');
+const express = require('express');
+const qs = require('qs');
 let Spotify = {};
 
 var client_id = 'd20e921a6eba489a93eb018715a05f53'; // Your client id
 var client_secret = '3e7ddc307f2e429a8a58adba64271916'; // Your secret
+var redirect_uri = 'http://dev.csgo.work:1025/spotify/callback';
+var auth_uri = 'http://dev.csgo.work:1025/spotify/auth';
+let scopes = 'user-read-currently-playing%20user-read-playback-state';
 
-Spotify.token = "BQAJvhohW35GkAvOer1ySFtBegT8NHXE34AtdvABk_20PMwnN2FfaIwUWynAJGkGlehbRCDuMxqm7OWnM0afiPaqqNMF4n8YDdOp-iozH3vT3sr0awLFhA2YCL9f2-vzATwS6wKtghdmSPIK0dgow2zdkcdRXT1Jv_AEJ1En75mepJhVfuxjeoB4JWsR7sc-ysikaykKpwfti2hiA1_QJ5QNVIdE-uAERgEpIHqrEw6YKMsichNDx0XpnI18M1y7rjMKCrYpcn9-";
+Spotify.ready = false;
 
-Spotify.init = function(cb){
-  axios({
-    method: 'post',
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      Authorization: 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-    },
-    data: "grant_type=client_credentials"
-  })
-  .catch(function(err){
-    console.log(err.response);
-    fs.writeFile("./response.json", JSON.stringify(err.response), (erre) => {
-      console.log(erre);
-    });
-  })
-  .then(function(response){
-    cb(response.data.access_token);
-  })
-}
+Spotify.access_token = "";
+Spotify.refresh_token = "";
+Spotify.refreshInterval;
+
+Spotify.web = express.Router();
+
+Spotify.web.get('/login', function(req, res, next) {
+  res.redirect('https://accounts.spotify.com/authorize' +
+    '?response_type=code' +
+    '&client_id=' + client_id +
+    '&scope=' + scopes +
+    '&redirect_uri=' + encodeURIComponent(redirect_uri));
+});
+
+Spotify.web.get('/callback', function(req, res, next){
+    axios({
+      method: 'post',
+      url: 'https://accounts.spotify.com/api/token',
+      headers: {
+        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+      },
+      data: qs.stringify({
+        'grant_type': 'authorization_code',
+        'code': req.query.code,
+        'redirect_uri': redirect_uri
+      })
+    })
+      .then(function(response){
+        console.log(response.data)
+        res.json(response.data);
+        Spotify.access_token = response.data.access_token;
+        Spotify.refresh_token = response.data.refresh_token;
+        Spotify.refreshInterval = response.data.expires_in;
+        Spotify.ready = true;
+        setInterval(function(){
+          axios({
+            method: 'post',
+            url: 'https://accounts.spotify.com/api/token',
+            headers: {
+              'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+            },
+            data: qs.stringify({
+              'grant_type': 'refresh_token',
+              'refresh_token': Spotify.refresh_token
+            })
+          })
+          .then(function(response){
+            console.log(response.data)
+            Spotify.access_token = response.data.access_token;
+            next();
+          })
+          .catch(function(err){
+            console.log(err.data)
+          });
+        }, (Spotify.refreshInterval - 60) * 1000 );
+
+        next();
+      })
+      .catch(function(err){
+        console.log(err.response.data)
+        res.json(err.response.data);
+      });
+});
+
+Spotify.web.get('/auth', function(req, res, next) {
+  res.json(req.query);
+});
 
 Spotify.get = function (url){
     return axios({
         method: 'get',
         url: 'https://api.spotify.com' + url,
         headers: {
-          Authorization: 'Bearer ' + Spotify.token
+          Authorization: 'Bearer ' + Spotify.access_token
         }
       });
 };
@@ -42,7 +95,7 @@ Spotify.post = function (url){
         method: 'post',
         url: 'https://api.spotify.com' + url,
         headers: {
-          Authorization: 'Bearer ' + Spotify.token
+          Authorization: 'Bearer ' + Spotify.access_token
         }
       });
 };
@@ -52,7 +105,7 @@ Spotify.put = function (url){
         method: 'put',
         url: 'https://api.spotify.com' + url,
         headers: {
-          Authorization: 'Bearer ' + Spotify.token
+          Authorization: 'Bearer ' + Spotify.access_token
         }
       });
 };
@@ -62,7 +115,7 @@ Spotify.delete = function (url){
         method: 'delete',
         url: 'https://api.spotify.com' + url,
         headers: {
-          Authorization: 'Bearer ' + Spotify.token
+          Authorization: 'Bearer ' + Spotify.access_token
         }
       });
 };
@@ -89,6 +142,7 @@ Spotify.getCurrentPlayingSongInfo = function(cb){
             }
             SongInfo.length = song.duration_ms;
             SongInfo.images = song.album.images;
+            SongInfo.token = Spotify.access_token;
             resolve(SongInfo);
         });
   });

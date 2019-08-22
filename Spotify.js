@@ -40,8 +40,7 @@ Spotify.web.get('/callback', function(req, res, next){
       })
     })
       .then(function(response){
-        console.log(response.data)
-        res.json(response.data);
+        res.send("<html><body>Succeed to retrive token from Spotify API: <br>" + JSON.stringify(response.data) + "<br>This page will be closed in 5 seconds</body><script>setTimeout(function(){window.close()}, 5000)</script></html>");
         Spotify.access_token = response.data.access_token;
         Spotify.refresh_token = response.data.refresh_token;
         Spotify.refreshInterval = response.data.expires_in;

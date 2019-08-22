@@ -12,7 +12,7 @@
   </head>
   <body bgcolor="#00FF00" style="color:#fff; overflow: none;">
   <!--<body background="./bg.jpg" style="color:#fff; overflow: none;">-->
-    <div class="top left blocks size-3 grey">
+    <div class="top left blocks size-3 grey" id="gameState">
         <span id="map">Unknown</span> | <span id="phase">Round X</span> | <span id="wins-1">T 0</span> - <span id="wins-2">0 CT</span>
     </div>
     <div class="top right blocks size-3 grey" style="text-align: right;min-width: 265px;">
@@ -51,7 +51,7 @@
         </div>
     </div>
     
-    <div class="bottom left blocks" style="min-width: 400px; min-height: 45px;">
+    <div class="bottom left blocks" style="min-width: 400px; min-height: 45px;" id="playerState">
         <div class="hp-bar" style="width: 200px;">
             <span class="hp-bar-content" id="hp-bar">
             </span>
@@ -84,7 +84,7 @@
         <span class="size-1"> <span>
     </div>
     
-    <div class="right bottom blocks grey" style="min-width: 400px; min-height: 45px;text-align: right;">
+    <div class="right bottom blocks grey" style="min-width: 400px; min-height: 45px;text-align: right;" id="WeaponSlot">
         <div class="row" style="position: absolute; right:300px; bottom: 12px;">
             <span class="size-3"><i class="fas fa-skull"></i></span> <span class="size-3" id="kills" style="text-align: left;">0</span>
         </div>
@@ -92,58 +92,9 @@
     </div>
   </body>
 <script type="text/javascript">
-
     $("#multikill").hide();
-    var opacity = 0.5;
-    var firstColor = function(num){
-        return "rgba(74, 149, 207," + num + ")"
-        };
-    var secondColor = function(num){
-        return "rgba(50, 60, 168," + num + ")"
-        };
-    /*
-    var firstColor(1) = "rgba(213,48,242,1)";
-    var secondColor(1) = "rgba(255,165,0,1)";
-    */
-    /*
-    return "rgba(183,36,36," + num + ")"
-    return "rgba(255,136,0," + num + ")"
-    */
-    var color1 = -200;
-    var color2 = -100;
-    var color3 = 0;
-    var color4 = 100;
 
     $(document).ready(function(){
-        setInterval(function(){
-            return ;
-            if(color4 > 100){
-                $(".blocks").css("background", "linear-gradient(105deg, " + firstColor(1) + " " + color1 +"%, " + secondColor(1) + " " + color2 +"%, " + firstColor(1) + " " + color3 +"%, " + secondColor(1) + " " + color4 +"%)");
-            }else if(color3 > 100){
-                $(".blocks").css("background", "linear-gradient(105deg, " + secondColor(1) + " " + color4 +"%, " + firstColor(1) + " " + color1 +"%, " + secondColor(1) + " " + color2 +"%, " + firstColor(1) + " " + color3 +"%)");
-            }else if(color2 > 100){
-                $(".blocks").css("background", "linear-gradient(105deg, " + firstColor(1) + " " + color3 +"%, " + secondColor(1) + " " + color4 +"%, " + firstColor(1) + " " + color1 +"%, " + secondColor(1) + " " + color2 +"%)");
-            }else if(color1 > 100){
-                $(".blocks").css("background", "linear-gradient(105deg, " + secondColor(1) + " " + color2 +"%, " + firstColor(1) + " " + color3 +"%, " + secondColor(1) + " " + color4 +"%, " + firstColor(1) + " " + color1 +"%)");
-            }
-            
-            color1 += 1.25;
-            color2 += 1.25;
-            color3 += 1.25;
-            color4 += 1.25;
-            if(color4 >= 200){
-                color4 = -200;
-            }
-            if(color3 >= 200){
-                color3 = -200;
-            }
-            if(color2 >= 200){
-                color2 = -200;
-            }
-            if(color1 >= 200){
-                color1 = -200;
-            }
-        }, 1000);
         setInterval(function(){
             var date = Date.now();
             $("#time").html(moment(date).format('YYYY/MM/DD HH:mm'));

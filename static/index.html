@@ -1,0 +1,182 @@
+<head>
+    <title>Streaming Hud Configuration</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+    <div id="app">
+        <v-app>
+            <v-content>
+                <v-container>
+                        <v-switch
+                            v-model="weapon"
+                            label="Weapon Slots"
+                        ></v-switch>
+                        <v-switch
+                            v-model="game"
+                            label="Game State"
+                        ></v-switch>
+                        <v-switch
+                            v-model="player"
+                            label="Player State"
+                        ></v-switch>
+                        <v-switch
+                            v-model="spectate"
+                            label="Spectate"
+                        ></v-switch>
+                        <v-switch
+                            v-model="multiKill"
+                            label="Multikill"
+                        ></v-switch>
+                        <v-switch
+                            v-model="money"
+                            label="Money"
+                        ></v-switch>
+                        <v-divider></v-divider>
+                        <v-switch
+                            v-model="csgomode"
+                            label="CS:GO Mode"
+                        ></v-switch>
+                </v-container>
+                
+            </v-content>
+        </v-app>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data: function(){
+            return {
+                loaded: false,
+                weapon: true,
+                game: true,
+                player: true,
+                spectate: true,
+                multiKill: true,
+                money: true,
+                csgomode: true
+            }
+        },
+        mounted(){
+            let vm = this;
+            axios.get('/hud')
+                .then(function(response){
+                    let t = response.data;
+                    vm.weapon = t.weapon;
+                    vm.game = t.game;
+                    vm.player = t.player;
+                    vm.spectate = t.spectate;
+                    vm.multiKill = t.multiKill;
+                    vm.money = t.money;
+                    if(vm.weapon == true && vm.game == true && vm.player == true){
+                        vm.csgomode = true;
+                    }else{
+                        vm.csgomode = false;
+                    }
+                    vm.loaded = true;
+                });
+        },
+        watch:{
+            weapon: function(){
+                let vm = this;
+                if(!vm.loaded){
+                    return ;
+                }
+                if(vm.weapon){
+                    axios.put('/hud/weapon/show');
+                }else{
+                    axios.put('/hud/weapon/hide');   
+                }
+            },
+            game: function(){
+                let vm = this;
+                if(!vm.loaded){
+                    return ;
+                }
+                if(vm.game){
+                    axios.put('/hud/game/show');
+                }else{
+                    axios.put('/hud/game/hide');   
+                }
+            },
+            player: function(){
+                let vm = this;
+                if(!vm.loaded){
+                    return ;
+                }
+                if(vm.player){
+                    axios.put('/hud/player/show');
+                }else{
+                    axios.put('/hud/player/hide');   
+                }
+            },
+            spectate: function(){
+                let vm = this;
+                if(!vm.loaded){
+                    return ;
+                }
+                if(vm.spectate){
+                    axios.put('/hud/spectate/show');
+                }else{
+                    axios.put('/hud/spectate/hide');   
+                }
+            },
+            multiKill: function(){
+                let vm = this;
+                if(!vm.loaded){
+                    return ;
+                }
+                if(vm.multiKill){
+                    axios.put('/hud/multikill/show');
+                }else{
+                    axios.put('/hud/multikill/hide');   
+                }
+            },
+            money: function(){
+                let vm = this;
+                if(!vm.loaded){
+                    return ;
+                }
+                if(vm.money){
+                    axios.put('/hud/money/show');
+                }else{
+                    axios.put('/hud/money/hide');   
+                }
+            },
+            csgomode: function(){
+                let vm = this;
+                if(!vm.loaded){
+                    return ;
+                }
+                if(vm.csgomode){
+                    vm.weapon = true;
+                    vm.game = true;
+                    vm.player = true;
+                    axios.put('/hud/weapon/show');
+                    axios.put('/hud/game/show');
+                    axios.put('/hud/player/show');
+                }else{
+                    vm.weapon = false;
+                    vm.game = false;
+                    vm.player = false;
+                    vm.spectate = false;
+                    vm.multiKill = false;
+                    vm.money = false;
+                    axios.put('/hud/weapon/hide');
+                    axios.put('/hud/game/hide');
+                    axios.put('/hud/player/hide');
+                    axios.put('/hud/spectate/hide');
+                    axios.put('/hud/multikill/hide');
+                    axios.put('/hud/money/hide');
+                }
+            }
+        }
+      });
+    </script>
+</body>

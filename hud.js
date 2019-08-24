@@ -81,6 +81,7 @@ hud.pause = function(){
     hud.hideMoney();
     hud.hidePlayer();
     hud.hideSpectate();
+    hud.offFire();
 }
 
 let pauseTimer;
@@ -265,6 +266,17 @@ hud.drawMoney = function(){
     $("#money").html("$" + csgo.player.state.money);
 }
 
+hud.onFire = function (){
+    $("#onfire").removeClass("fadeOut").addClass("fadeIn").show();
+}
+
+hud.offFire = function (){
+    $("#onfire").removeClass("fadeIn").addClass("fadeOut");
+        setTimeout(function(){
+            $("#onfire").hide();
+        }, 1000);
+}
+
 hud.drawPlayerState = function(){
     $("#hp").html(csgo.player.state.health);
     $("#hp-bar").css("width", csgo.player.state.health + "%");
@@ -302,6 +314,12 @@ hud.drawPlayerState = function(){
         $("#kills").html(output);
     }else{
         $("#kills").html('<i class="fas fa-skull"></i> ' + csgo.player.state.round_kills);
+    }
+
+    if(csgo.player.state.round_kills > 1){
+        hud.onFire();
+    }else{
+        hud.offFire();
     }
 
     $("#k").html(csgo.player.match_stats.kills);

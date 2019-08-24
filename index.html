@@ -81,7 +81,11 @@
     </div>
     
     <div class="bottom bottom-center blocks grey" style="min-width: 650px; min-height: 80px;">
-        <span class="size-1"> <span>
+        <img src="avatar.jpg" style="position: absolute;transform: skew(15deg);border-radius: 50%; height: 80px;left: 295px;">
+        <div id="onfire">
+            <div style="position: absolute;left: 315px; top: 32.5px;" class="flame1"></div>
+            <div style="position: absolute;left: 337px; top: 32.5px;" class="flame2"></div>
+        </div>
     </div>
     
     <div class="right bottom blocks grey" style="min-width: 400px; min-height: 45px;text-align: right;" id="WeaponSlot">
@@ -101,9 +105,9 @@
     </div>
   </body>
 <script type="text/javascript">
-    $("#multikill").hide();
 
     $(document).ready(function(){
+        $("#multikill").hide();
         setInterval(function(){
             var date = Date.now();
             $("#time").html(moment(date).format('YYYY/MM/DD HH:mm'));

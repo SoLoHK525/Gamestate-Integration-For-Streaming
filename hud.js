@@ -81,6 +81,7 @@ hud.pause = function(){
     hud.hideMoney();
     hud.hidePlayer();
     hud.hideSpectate();
+    hud.offFire();
 }
 
 let pauseTimer;

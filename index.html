@@ -85,10 +85,19 @@
     </div>
     
     <div class="right bottom blocks grey" style="min-width: 400px; min-height: 45px;text-align: right;" id="WeaponSlot">
-        <div class="row" style="position: absolute; right:300px; bottom: 12px;">
-            <span class="size-3"><i class="fas fa-skull"></i></span> <span class="size-3" id="kills" style="text-align: left;">0</span>
+        <div class="row size-4" style="position: absolute; left: -5px; bottom: 15px; width: 150px;">
+            <span id="kills">
+                    <i class="fas fa-skull"></i>
+                    <i class="fas fa-skull"></i>
+                    <i class="fas fa-skull"></i>
+                    <i class="fas fa-skull"></i>
+                    <i class="fas fa-skull"></i>
+            </span>
         </div>
-        <span class="size-2" id="ammo">0 / 0</span><span class="csgo-icon-awp" id="weapon" style="display: inline-block; font-size: 35px;"></span>
+        <span id="clip" style="position:absolute; right: 200px;font-size: 30px; bottom: 15px;">150</span>
+        <span id="divider" style="position:absolute; right: 182px;font-size: 30px; bottom: 5px;">/</span>
+        <span class="size-4" id="ammo" style="text-align: right;position: absolute; left: 240px; bottom:5px;">30</span>
+        <span class="csgo-icon-awp" id="weapon" style="display: inline-block; font-size: 35px; position:absolute; right: 15px; bottom: 2.5px; transform: scaleX(-1) skew(-15deg);"></span>
     </div>
   </body>
 <script type="text/javascript">

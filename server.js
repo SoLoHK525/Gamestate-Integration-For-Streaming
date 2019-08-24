@@ -1,6 +1,23 @@
-let gui = require('nw.gui');
-let http = require('http');
+try { let gui = require('nw.gui');}catch(err){console.log(err)}
 let debug = true;
+if(debug) {
+    $ = () => {
+        let obj = {
+            removeClass: () => {return obj},
+            addClass: () => {return obj},
+            show: () => {return obj},
+            hide: () => {return obj},
+            attr: () => {return obj},
+            css: () => {return obj},
+            html: (content) => {
+                console.log(content);
+                return obj},
+        }
+        return obj;
+    };
+}
+
+let http = require('http');
 let fs = require('fs');
 let express = require('express');
 let path = require('path');

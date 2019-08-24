@@ -1,3 +1,5 @@
+const skins = require('./skins');
+
 let hud = {};
 let $;
 let csgo = {
@@ -41,6 +43,47 @@ hud.getShow = function(){
 }
 
 let Timeouts = [];
+
+hud.paused = false;
+
+hud.resume = function(){
+    hud.showWeapon();
+    hud.showGame();
+    hud.showPlayer();
+    hud.showSpectate();
+    hud.showMoney();
+    /*
+        if(hud.show.weapon){
+            hud.showWeapon();
+        }
+
+        if(hud.show.game){
+            hud.showGame();
+        }
+
+        if(hud.show.player){
+            hud.showPlayer();
+        }
+
+        if(hud.show.Spectate){
+            hud.showSpectate();
+        }
+
+        if(hud.show.money){
+            hud.showMoney();
+        }
+    */
+}
+
+hud.pause = function(){
+    hud.hideWeapon();
+    hud.hideGame();
+    hud.hideMoney();
+    hud.hidePlayer();
+    hud.hideSpectate();
+}
+
+let pauseTimer;
 
 hud.showWeapon = function(){
     hud.show.weapon = true;
@@ -117,6 +160,15 @@ hud.hideMoney = function(){
     }, 1000);
 }
 
+hud.autoPause = setInterval(function(){
+    hud.autoPauseInteval = setTimeout(function(){
+        hud.paused = true;
+        pauseTimer = setTimeout(function(){
+            hud.pause();
+        }, 0);
+    }, 10000);
+}, 10000);
+
 hud.updateData = function(data){
     csgo.map = data.map;
     csgo.round.phase = data.map.phase;
@@ -126,6 +178,23 @@ hud.updateData = function(data){
     csgo.player = data.player;
     csgo.weapons = data.player.weapons;
     csgo.provider = data.provider; 
+
+    clearInterval(hud.autoPauseInteval);
+
+    if(csgo.player.activity == "playing" || csgo.player.activity == "textinput"){
+        if(hud.paused){
+            hud.paused = false;
+            clearTimeout(pauseTimer);
+            setTimeout(function(){
+                hud.resume();
+            }, 0);
+        }
+    }else{
+        hud.paused = true;
+        pauseTimer = setTimeout(function(){
+            hud.pause();
+        }, 0);
+    }
 
     if(hud.show.multiKill){
         multiKill(csgo.player.state.round_kills);
@@ -157,9 +226,14 @@ hud.drawWeapon = function(){
     weapons.forEach(function(weapon, i){
         if(weapon.state == "active"){
             $("#weapon").attr("class", "csgo-icon-lg-2 csgo-icon-" + weapon.name.substring(7, weapon.name.length));
+            $("#weapon").css("text-shadow", "0 0 15px " + skins.getGradeColor(skins.getSkinGrade(weapon.name, weapon.paintkit)));
             if(weapon.ammo_clip_max != null){
-                $("#ammo").html(weapon.ammo_clip + " / " + weapon.ammo_reserve);
+                $("#clip").html(weapon.ammo_clip);
+                $("#divider").html('/');
+                $("#ammo").html(weapon.ammo_reserve);
             }else{
+                $("#clip").html("");
+                $("#divider").html("");
                 $("#ammo").html("");
             }
         }
@@ -218,7 +292,17 @@ hud.drawPlayerState = function(){
         $("#armor-bar").css("background-color", "#037ffc");
     }
     
-    $("#kills").html(csgo.player.state.round_kills);
+    if(csgo.player.state.round_kills == 0){
+        $("#kills").html("");
+    }else if(csgo.player.state.round_kills <= 5){
+        let output = "";
+        for(let i = 0; i < csgo.player.state.round_kills; i++){
+            output += '<i class="fas fa-skull"></i> ';
+        }
+        $("#kills").html(output);
+    }else{
+        $("#kills").html('<i class="fas fa-skull"></i> ' + csgo.player.state.round_kills);
+    }
 
     $("#k").html(csgo.player.match_stats.kills);
     $("#a").html(csgo.player.match_stats.assists);

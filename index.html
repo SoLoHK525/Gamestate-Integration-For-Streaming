@@ -6,11 +6,8 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Orbitron|Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <script src="./server.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
   </head>
-  <body bgcolor="#00FF00" style="color:#fff; overflow: none;">
+  <body style="color:#fff; overflow: none;">
   <!--<body background="./bg.jpg" style="color:#fff; overflow: none;">-->
     <div class="top left blocks size-3 grey" id="gameState">
         <span id="map">Unknown</span> | <span id="phase">Round X</span> | <span id="wins-1">T 0</span> - <span id="wins-2">0 CT</span>
@@ -22,7 +19,7 @@
     <div class="blocks" style="height: 55px;width: 105px;position: fixed; top: 22.6%; right: -10px;">
  
     </div>
-    <div class="left blocks size-2 fadeInLeft grey" style="bottom: 627px;position: fixed;margin-left: 5px; width: 170px;" id="money">
+    <div class="left blocks size-2 fadeInLeft grey2" style="bottom: 672.5px;position: fixed;margin-left: 5px; width: 170px;padding-left: 25px;" id="money">
         $16000
     </div>
     <div class="left blocks size-2 fadeInLeft grey" style="bottom: 573px;position: fixed;margin-left: 5px;" id="spectating">
@@ -34,9 +31,9 @@
     
     
     <div class="right blocks grey spotify fadeInRight" style=" height: 80px; bottom: 500px;position: fixed;" id="spotify">
-        <img src="./spotify.png" style="-webkit-transform: skew(15deg);position: absolute;right: 25px;">
+        <img src="./spotify.png" style="-webkit-transform: skew(15deg);position: absolute;right: 25px;opacity: 0.75;">
         <div class="spotify-img">
-            <span><img id="spotify-track-img" height="70px"></span>
+            <span><img id="spotify-track-img" height="72px" style="box-shadow:  rgba(255, 255, 255, 0.1) 0px 0px 30px"></span>
         </div>
         <div class="spotify-track-info">
             <span class="name" id="spotify-track-name">Crave</span>
@@ -52,7 +49,7 @@
     </div>
     
     <div class="bottom left blocks" style="min-width: 400px; min-height: 45px;" id="playerState">
-        <div class="hp-bar" style="width: 200px;">
+        <div class="hp-bar" style="width: 200px;box-shadow:  rgb(51, 51, 51) 0px 0px 10px, rgb(51, 51, 51) 0px 0px 50px">
             <span class="hp-bar-content" id="hp-bar">
             </span>
             <span class="hp-bar-text">
@@ -75,7 +72,7 @@
             </div>
         </div>
         -->
-        <div class="kad-board size-4">
+        <div class="kad-board size-4 grey2">
             <span id="k">0</span> <span>K</span> | <span id="a">0</span> <span>A</span> | <span id="d">0</span> <span>D</span>
         </div>
     </div>
@@ -88,7 +85,7 @@
         </div>
     </div>
     
-    <div class="right bottom blocks grey" style="min-width: 400px; min-height: 45px;text-align: right;" id="WeaponSlot">
+    <div class="right bottom blocks grey2" style="min-width: 400px; min-height: 45px;text-align: right; background-color: rgba(51, 51, 51, 1);" id="WeaponSlot">
         <div class="row size-4" style="position: absolute; left: -5px; bottom: 15px; width: 150px;">
             <span id="kills">
                     <i class="fas fa-skull"></i>
@@ -103,16 +100,135 @@
         <span class="size-4" id="ammo" style="text-align: right;position: absolute; left: 240px; bottom:5px;">30</span>
         <span class="csgo-icon-awp" id="weapon" style="display: inline-block; font-size: 35px; position:absolute; right: 15px; bottom: 2.5px; transform: scaleX(-1) skew(-15deg);"></span>
     </div>
-  </body>
-<script type="text/javascript">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
 
-    $(document).ready(function(){
-        $("#multikill").hide();
-        setInterval(function(){
-            var date = Date.now();
-            $("#time").html(moment(date).format('YYYY/MM/DD HH:mm'));
-        }, 1000);
-    });
- 
- </script>
+    <script src="/client/skins.js"></script>
+    <script src="/client/hud.js"></script>
+    <script src="/client/Spotify.js"></script>
+    <script type="text/javascript">
+        var Database = {
+            Alpha: 0.5,
+            Color: [33, 33, 33],
+            show: {
+                weapon: true,
+                game: true,
+                player: true,
+                spectate: true,
+                multiKill: true,
+                money: true
+            }
+        }
+
+        if(localStorage.preference == undefined || localStorage.preference == 'undefined' || localStorage.preference == null){
+            saveToDatabase();
+        }else{
+            Database = JSON.parse(localStorage.preference);
+        }
+
+        function saveToDatabase(){
+            localStorage.preference = JSON.stringify(Database);
+        }
+
+        function changeColor(){
+            $(".grey").css("background-color", "rgba(" + Database.Color[0] + ","+ Database.Color[1] + ","+ Database.Color[2] + "," + Database.Alpha +")");
+            $(".grey2").css("background-color", "rgba(" + Database.Color[0] + ","+ Database.Color[1] + ","+ Database.Color[2] + ", 1.0)");
+        }
+
+        var socket = io();
+
+        socket.on('Spotify', function(SongInfo){
+            Spotify.update(SongInfo);
+        });
+
+        socket.on('csgo', function(data){
+            console.log(data);
+            hud.updateData(JSON.parse(data));
+        });
+
+        socket.on('test', function(data){
+            console.log(data);
+        })
+        
+        socket.on('show', function(target){
+            switch(target){
+                case 'weapon':
+                    hud.showWeapon();
+                    break;
+                case 'game':
+                    hud.showGame();
+                    break;
+                case 'player':
+                    hud.showPlayer();
+                    break;
+                case 'spectate':
+                    hud.showSpectate();
+                    break;
+                case 'multikill':
+                    hud.show.multiKill = true;
+                    break;
+                case 'money':
+                    hud.showMoney();
+                    break;
+                default:
+                    break;
+            }
+            Database.show = hud.show;
+            saveToDatabase();
+        });
+
+        socket.on('opacity', function(value){
+            Database.Alpha = value / 100;
+            saveToDatabase();
+            changeColor();
+        });
+
+        
+        socket.on('color', function(value){
+            console.log(value);
+            Database.Color = value;
+            saveToDatabase();
+            changeColor();
+        });
+
+        socket.on('hide', function(target){
+            switch(target){
+                case 'weapon':
+                    hud.hideWeapon();
+                    break;
+                case 'game':
+                    hud.hideGame();
+                    break;
+                case 'player':
+                    hud.hidePlayer();
+                    break;
+                case 'spectate':
+                    hud.hideSpectate();
+                    break;
+                case 'multikill':
+                    hud.show.multiKill = false;
+                    break;
+                case 'money':
+                    hud.hideMoney();
+                    break;
+                default:
+                    break;
+            }
+            Database.show = hud.show;
+            saveToDatabase();
+        });
+
+        $(document).ready(function(){
+            
+            $("#multikill").hide();
+            setInterval(function(){
+                var date = Date.now();
+                $("#time").html(moment(date).format('YYYY/MM/DD HH:mm'));
+            }, 1000);
+
+            changeColor();
+        });
+    </script>
+  </body>
 </html>

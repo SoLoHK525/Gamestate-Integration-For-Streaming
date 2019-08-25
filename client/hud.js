@@ -1,7 +1,5 @@
-const skins = require('./skins');
-
 let hud = {};
-let $;
+
 let csgo = {
     map: "de_test",
     round: {
@@ -167,8 +165,8 @@ hud.autoPause = setInterval(function(){
         pauseTimer = setTimeout(function(){
             hud.pause();
         }, 0);
-    }, 10000);
-}, 10000);
+    }, 30000);
+}, 30000);
 
 hud.updateData = function(data){
     csgo.map = data.map;
@@ -434,5 +432,3 @@ function multiKill(num){
         }, 5000);
     }
 }
-
-module.exports = hud;

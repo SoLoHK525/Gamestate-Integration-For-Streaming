@@ -1,4 +1,4 @@
-try { let gui = require('nw.gui');}catch(err){console.log(err)}
+//try { let gui = require('nw.gui');}catch(err){console.log(err)}
 let debug = true;
 if(debug) {
     $ = () => {
@@ -17,69 +17,30 @@ if(debug) {
     };
 }
 
-let http = require('http');
 let fs = require('fs');
 let express = require('express');
 let path = require('path');
 const open = require('open');
 let Spotify = require('./Spotify.js');
-
 let app = express();
 
-let hud = require('./hud');
+let http = require('http').createServer(app);
+global.io = require('socket.io')(http);
+io.on('connection', function(socket){
+    console.log('a user connected');
+  });
+
+
 let hudRoute = require('./hudRoute');
-setTimeout(function(){
-    hud.$($);
-}, 100);
 
-function millisToMinutesAndSeconds(millis) {
-    var minutes = Math.floor(millis / 60000);
-    var seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-}
-
-
-Spotify.hide = function(){
-    $("#spotify").removeClass("fadeInRight");
-    $("#spotify").addClass("fadeOutLeft");
-    spotifyTimeout = setTimeout(function(){
-        $("#spotify").hide();
-    }, 1000);
-}
-
-Spotify.show = function(){
-    $("#spotify").show();
-    $("#spotify").removeClass("fadeOutLeft");
-    $("#spotify").addClass("fadeInRight");
-}
 
 setInterval(function(){
     if(Spotify.ready){
         Spotify.getCurrentPlayingSongInfo(function(SongInfo){
-            if(!SongInfo.playing){
-                Spotify.hide();
-            }else{
-                Spotify.show();
-            }
-            //$("#spotify").html(JSON.stringify(SongInfo));
-            $("#spotify-track-img").attr("src", SongInfo.images[2].url);
-            $("#spotify-track-name").html(SongInfo.name);
-            let artistName = "";
-            
-            for(let i = 0; i < SongInfo.artists.length; i++){
-                if(i == 0){
-                    artistName += SongInfo.artists[i];
-                }else{
-                    artistName += ", " + SongInfo.artists[i];
-                }
-            }
-            $("#spotify-track-artist").html(artistName);
-            $("#spotify-time-display").html(millisToMinutesAndSeconds(SongInfo.progress));
-            let progress = ((SongInfo.progress / SongInfo.length) * 100).toPrecision(3);
-            $(".spotify-time-content").css("width", progress + "%")
+            io.emit('Spotify', SongInfo);
         });
     }else{
-        Spotify.hide();
+        //Spotify.hide();
     }
 }, 1000);
 
@@ -92,7 +53,13 @@ open('http://localhost:' + port);
 /*
 *   Static Resources
 */
+app.use(express.static(__dirname));
+
 app.get('/', function(req, res, next) {
+    res.status(200).sendFile('index.html', {root: './'});
+});
+
+app.get('/settings', function(req, res, next) {
     res.status(200).sendFile('index.html', {root: 'static/'});
 });
 
@@ -107,7 +74,7 @@ app.post('/', function(req, res, next) {
             console.log("POST payload: " + body);
         }
         console.log("POST payload: " + body);
-        hud.updateData(JSON.parse(body));
+        io.emit('csgo', body);
         res.setHeader('Content-Type', 'text/html')
         res.writeHead(200, '');
         res.end();
@@ -117,6 +84,6 @@ app.post('/', function(req, res, next) {
 app.use('/spotify', Spotify.web);
 app.use('/hud', hudRoute);
 
-app.listen(port);
-//server.listen(port);
-console.log('Listening at http://' + host + ':' + port);
+http.listen(port, function(){
+    console.log('listening on *:' + port);
+  });

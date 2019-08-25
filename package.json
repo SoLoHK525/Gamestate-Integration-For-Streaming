@@ -13,7 +13,8 @@
     "jquery": "^3.3.1",
     "nw": "^0.37.3",
     "open": "^6.4.0",
-    "qs": "^6.8.0"
+    "qs": "^6.8.0",
+    "socket.io": "^2.2.0"
   },
   "chromium-args": "--disable-gpu --force-cpu-draw",
   "main": "index.html",

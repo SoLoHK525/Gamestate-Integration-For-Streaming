@@ -3,13 +3,19 @@ html {
     font-weight: bold;
 }
 
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-smoothing: antialiased;
+}
+    
 .spotify {
     min-width: 250px;
     padding-right: 25px !important;
 }
 
 .spotify-img {
-    bottom: 10px;
+    bottom: 5px;
     left: 10px;
     position: absolute;
 }
@@ -41,14 +47,16 @@ html {
     position: absolute;
     height: 25px;
     width: 175px;
-    background-color: #888;
+    background-color: rgba(136, 136, 136, 0.375);
+    box-shadow:  rgb(69, 162, 255) 0px 0px 2px, rgb(69, 162, 255) 0px 0px 5px;
 }
 
 
 .spotify-time-content {
     height: 100%;
     width: 50%;
-    background-color: #037ffc;
+    background-color: rgba(3, 127, 252, 1);
+    text-shadow: #FFF 0px 0px 2px, #FFF 0px 0px 5px, #FFF 0px 0px 10px;
 }
 
 .spotify-time-content span {
@@ -57,10 +65,10 @@ html {
 }
 
 .kad-board {
+    box-shadow:  rgb(51, 51, 51) 0px 0px 2px, rgb(51, 51, 51) 0px 0px 5px, rgb(51, 51, 51) 0px 0px 10px, rgb(51, 51, 51) 0px 0px 20px;
     padding-top: 5px;
     padding-left: 20px;
     height: 50px;
-    background-color: #333;
     display: inline-block;
     position: absolute;
     left: 200px;
@@ -76,6 +84,7 @@ html {
 }
 
 .progress {
+    
   padding: 6px;
   background: rgba(0, 0, 0, 0.25);
   border-radius: 6px;
@@ -135,11 +144,22 @@ html {
 
 
 .grey {
-    background-color: #333;
+    box-shadow:  rgb(51, 51, 51) 0px 0px 2px, rgb(51, 51, 51) 0px 0px 5px, rgb(51, 51, 51) 0px 0px 10px, rgb(51, 51, 51) 0px 0px 20px;
+    background-color: rgba(51, 51, 51, 0.75);
     -webkit-transform: skew(-15deg);
 }
 
 .grey span {
+    -webkit-transform: skew(15deg);
+}
+
+.grey2 {
+    box-shadow:  rgb(51, 51, 51) 0px 0px 2px, rgb(51, 51, 51) 0px 0px 5px, rgb(51, 51, 51) 0px 0px 10px, rgb(51, 51, 51) 0px 0px 20px;
+    background-color: rgba(51, 51, 51, 1);
+    -webkit-transform: skew(-15deg);
+}
+
+.grey2 span {
     -webkit-transform: skew(15deg);
 }
 
@@ -212,11 +232,6 @@ html {
     animation-duration: 1s;
 }
 
-.fadeOut {
-    animation-name: fadeOut;
-    animation-duration: 1s;
-}
-
 @-webkit-keyframes fadeOut {
     from {
         opacity:1;
@@ -226,8 +241,8 @@ html {
     }
 }
 
-.fadeIn {
-    animation-name: fadeIn;
+.fadeInLeft {
+    animation-name: fadeInLeft;
     animation-duration: 1s;
 }
 

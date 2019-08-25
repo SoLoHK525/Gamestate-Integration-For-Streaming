@@ -10,6 +10,7 @@
         <v-app>
             <v-content>
                 <v-container>
+                    <v-layout row>
                         <v-switch
                             v-model="weapon"
                             label="Weapon Slots"
@@ -34,13 +35,39 @@
                             v-model="money"
                             label="Money"
                         ></v-switch>
-                        <v-divider></v-divider>
+                        <v-divider vertical></v-divider>
                         <v-switch
                             v-model="csgomode"
                             label="CS:GO Mode"
                         ></v-switch>
+                    </v-layout>
+                    <v-layout row>
+                        <v-flex sm6 xs12>
+                            <v-subheader class="pl-0">HUD Opacity: {{ opacity }}%</v-subheader>
+                            <v-slider
+                            v-model="opacity"
+                            max="100"
+                            min="0"
+                            thumb-label="always"
+                            v-on:end="changeOpacity()"
+                            ><template v-slot:prepend>
+                                <v-text-field
+                                v-model="opacity"
+                                class="mt-0 pt-0"
+                                hide-details
+                                single-line
+                                type="number"
+                                style="width: 60px"
+                                ></v-text-field>
+                            </template>
+                            </v-slider>
+                        </v-flex>
+                        <v-flex sm6 xs12></v-flex>
+                            <v-subheader class="pl-0">HUD Color:</v-subheader>
+                            <v-color-picker :hide-mode-switch="true" v-model="color" v-on:input="changeColor()"></v-color-picker>
+                        </v-layout>
+                    </v-layout>
                 </v-container>
-                
             </v-content>
         </v-app>
     </div>
@@ -60,7 +87,29 @@
                 spectate: true,
                 multiKill: true,
                 money: true,
-                csgomode: true
+                csgomode: true,
+                opacity: 50,
+                timer: [],
+                cooldown: [],
+                color: {}
+            }
+        },
+        methods: {
+            changeOpacity: function(){
+                let vm = this;
+                axios.put('/hud/opacity/' + vm.opacity);
+            },
+            changeColor: function(){
+                let vm = this;
+                if(vm.cooldown["color"] == true){
+                    return;
+                }
+                vm.cooldown["color"] = true;
+                setTimeout(function(){
+                    vm.cooldown["color"] = false;
+                }, 500);
+                let color = this.color.rgba;
+                axios.put('/hud/color/' + color.r + '/' + color.g + '/' + color.b);
             }
         },
         mounted(){

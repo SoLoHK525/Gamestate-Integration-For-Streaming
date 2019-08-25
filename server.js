@@ -104,13 +104,14 @@ app.post('/', function(req, res, next) {
 
     req.on('end', function(){
         if(!!debug){
-            console.debug("POST payload: " + body);
+            console.log("POST payload: " + body);
         }
+        console.log("POST payload: " + body);
         hud.updateData(JSON.parse(body));
+        res.setHeader('Content-Type', 'text/html')
+        res.writeHead(200, '');
         res.end();
     })
-    res.status(200).setHeader('Content-Type', 'text/html');
-    res.send('');
 });
 
 app.use('/spotify', Spotify.web);

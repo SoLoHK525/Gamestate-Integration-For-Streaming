@@ -48,7 +48,8 @@ port = 1025;
 host = '127.0.0.1';
 
 open('http://localhost:' + port + '/spotify/login');
-open('http://localhost:' + port);
+open('http://localhost:' + port + '/settings');
+//open('http://localhost:' + port);
 
 /*
 *   Static Resources

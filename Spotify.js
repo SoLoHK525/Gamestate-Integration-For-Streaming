@@ -7,7 +7,6 @@ let Spotify = {};
 var client_id = 'd20e921a6eba489a93eb018715a05f53'; // Your client id
 var client_secret = '3e7ddc307f2e429a8a58adba64271916'; // Your secret
 var redirect_uri = 'http://localhost:1025/spotify/callback';
-var auth_uri = 'http://localhost:1025/spotify/auth';
 let scopes = encodeURIComponent('user-read-currently-playing user-read-playback-state');
 
 Spotify.ready = false;

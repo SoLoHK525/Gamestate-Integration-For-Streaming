@@ -1,5 +1,11 @@
 //try { let gui = require('nw.gui');}catch(err){console.log(err)}
 let debug = true;
+
+require('dotenv').config();
+
+global.hostname = (process.env.hostname == undefined) ? 'localhost' : process.env.hostname;
+global.port = (process.env.port == undefined) ? '1025' : process.env.port;
+
 if(debug) {
     $ = () => {
         let obj = {
@@ -11,7 +17,8 @@ if(debug) {
             css: () => {return obj},
             html: (content) => {
                 console.log(content);
-                return obj},
+                return obj
+            },
         }
         return obj;
     };
@@ -40,16 +47,13 @@ setInterval(function(){
             io.emit('Spotify', SongInfo);
         });
     }else{
+        io.emit('hide', 'Spotify');
         //Spotify.hide();
     }
 }, 1000);
 
-port = 1025;
-host = '127.0.0.1';
-
-open('http://localhost:' + port + '/spotify/login');
-open('http://localhost:' + port + '/settings');
-//open('http://localhost:' + port);
+open('http://' + hostname + ':' + port + '/spotify/login');
+open('http://' + hostname + ':' + port + '/settings');
 
 /*
 *   Static Resources

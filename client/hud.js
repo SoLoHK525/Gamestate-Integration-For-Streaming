@@ -180,6 +180,13 @@ hud.updateData = function(data){
 
     clearInterval(hud.autoPauseInteval);
 
+    if(csgo.player.activity == "menu"){
+        hud.paused = true;
+        pauseTimer = setTimeout(function(){
+            hud.pause();
+        }, 0);
+    }
+
     if(csgo.player.activity == "playing" || csgo.player.activity == "textinput"){
         if(hud.paused){
             hud.paused = false;

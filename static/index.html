@@ -64,7 +64,7 @@
                         </v-flex>
                         <v-flex sm6 xs12></v-flex>
                             <v-subheader class="pl-0">HUD Color:</v-subheader>
-                            <v-color-picker :hide-mode-switch="true" v-model="color" v-on:input="changeColor()"></v-color-picker>
+                            <v-color-picker :hide-mode-switch="true" v-model="color" v-on:update:color="changeColor()"></v-color-picker>
                         </v-layout>
                     </v-layout>
                 </v-container>
@@ -91,7 +91,13 @@
                 opacity: 50,
                 timer: [],
                 cooldown: [],
-                color: {}
+                color: {
+                    rgba: {
+                        r: 255,
+                        b: 255,
+                        b: 255
+                    }
+                }
             }
         },
         methods: {
@@ -101,6 +107,9 @@
             },
             changeColor: function(){
                 let vm = this;
+                if(!vm.loaded){
+                    return;
+                }
                 if(vm.cooldown["color"] == true){
                     return;
                 }
